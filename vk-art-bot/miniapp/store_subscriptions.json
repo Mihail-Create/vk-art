@@ -1,0 +1,15 @@
+[
+  {
+    "userId": 208825850,
+    "userNick": "geek_mann",
+    "expiresAt": 253402300799000,
+    "grantedBy": "root"
+  },
+  {
+    "userId": 998877,
+    "userNick": "Аня Петрова",
+    "expiresAt": 1818775310000,
+    "amount": 27000,
+    "currency": "cores"
+  }
+]

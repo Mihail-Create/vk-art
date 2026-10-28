@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Dha’t’elle — Клан & Арт & Рынок</title>
+  
+  <!-- Retro Pixel Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+  
+  <!-- VK Mini Apps Bridge SDK -->
+  <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-wrapper">
+    <div class="device-frame">
+      
+      <!-- Top Status Bar -->
+      <header class="app-header">
+        <div class="clan-brand">
+          <div class="emblem-wrapper">
+            <img src="assets/dhatelle_emblem.jpg" alt="Dha't'elle" class="clan-emblem">
+            <span class="pulse-indicator"></span>
+          </div>
+          <div class="clan-info">
+            <div class="clan-name-row">
+              <span class="clan-name">DHA'T'ELLE</span>
+              <span class="pixel-badge rank-badge">ВОС</span>
+            </div>
+            <div class="player-sub">
+              <span id="player-nick">geek_mann</span>
+              <span class="dot-sep">•</span>
+              <span class="tariff-free">СВОЙ: 0 ₽</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="header-controls">
+          <button id="sound-toggle" class="pixel-btn icon-btn" title="Звук">
+            <span id="sound-icon">🔊</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Content Area -->
+      <main class="app-content">
+
+        <!-- TAB 1: ХУДОЖКА (ЗАКАЗ АРТА) -->
+        <section id="tab-art" class="tab-pane active">
+          <div class="section-title-box">
+            <h2 class="section-title">АРТ-МАСТЕРСКАЯ</h2>
+            <span class="section-tag">DHA'T'ELLE ART</span>
+          </div>
+
+          <form id="art-order-form" onsubmit="event.preventDefault(); submitArtOrder();">
+            
+            <!-- Шаг 1: Раса -->
+            <div class="form-group">
+              <label class="pixel-label">1. РАСА ПЕРСОНАЖА</label>
+              <div class="pixel-grid grid-2" id="race-selector">
+                <button type="button" class="pixel-choice-btn active" data-name="race" data-val="Человек">
+                  <span class="choice-icon">👤</span> Человек
+                </button>
+                <button type="button" class="pixel-choice-btn" data-name="race" data-val="Эльф/Дроу">
+                  <span class="choice-icon">🧝</span> Эльф/Дроу
+                </button>
+                <button type="button" class="pixel-choice-btn" data-name="race" data-val="Орк/Гоблин">
+                  <span class="choice-icon">👹</span> Орк/Гоблин
+                </button>
+                <button type="button" class="pixel-choice-btn" data-name="race" data-val="Фурри/Зверь">
+                  <span class="choice-icon">🐺</span> Фурри/Зверь
+                </button>
+                <button type="button" class="pixel-choice-btn" data-name="race" data-val="Демон/Тифлинг">
+                  <span class="choice-icon">😈</span> Демон/Тифлинг
+                </button>
+                <button type="button" class="pixel-choice-btn" data-name="race" data-val="Нежить/Лич">
+                  <span class="choice-icon">💀</span> Нежить/Лич
+                </button>
+                <button type="button" class="pixel-choice-btn" data-name="race" data-val="Ангел/Небожитель">
+                  <span class="choice-icon">🪽</span> Небожитель
+                </button>
+                <button type="button" class="pixel-choice-btn" data-name="race" data-val="Драконид/Ящер">
+                  <span class="choice-icon">🐲</span> Драконид
+                </button>
+                <button type="button" class="pixel-choice-btn" data-name="race" data-val="Гном/Дварф">
+                  <span class="choice-icon">🧔</span> Гном/Дварф
+                </button>
+                <button type="button" class="pixel-choice-btn" data-name="race" data-val="Киборг/Механоид">
+                  <span class="choice-icon">🤖</span> Киборг
+                </button>
+              </div>
+            </div>
+
+            <!-- Шаг 2: Пол -->
+            <div class="form-group">
+              <label class="pixel-label">2. ПОЛ</label>
+              <div class="pixel-grid grid-3" id="gender-selector">
+                <button type="button" class="pixel-choice-btn active" data-name="gender" data-val="Мужской">Мужской</button>
+                <button type="button" class="pixel-choice-btn" data-name="gender" data-val="Женский">Женский</button>
+                <button type="button" class="pixel-choice-btn" data-name="gender" data-val="Неважно">Любой</button>
+              </div>
+            </div>
+
+            <!-- Шаг 3: Стиль -->
+            <div class="form-group">
+              <label class="pixel-label">3. СТИЛЬ РИСОВКИ</label>
+              <div class="pixel-grid grid-2" id="style-selector">
+                <button type="button" class="pixel-choice-btn active" data-name="style" data-val="Аниме">✨ Аниме</button>
+                <button type="button" class="pixel-choice-btn" data-name="style" data-val="Реализм">⚔️ Реализм</button>
+                <button type="button" class="pixel-choice-btn" data-name="style" data-val="Мультяшный">🎨 Мульт</button>
+                <button type="button" class="pixel-choice-btn" data-name="style" data-val="Пиксель-арт">👾 Пиксель</button>
+              </div>
+            </div>
+
+            <!-- Шаг 4: Настроение -->
+            <div class="form-group">
+              <label class="pixel-label">4. АТМОСФЕРА</label>
+              <div class="pixel-grid grid-3" id="mood-selector">
+                <button type="button" class="pixel-choice-btn active" data-name="mood" data-val="Мрачное/Дарк">🌑 Дарк</button>
+                <button type="button" class="pixel-choice-btn" data-name="mood" data-val="Яркое/Неон">⚡ Неон</button>
+                <button type="button" class="pixel-choice-btn" data-name="mood" data-val="Пастельное">🌸 Милое</button>
+              </div>
+            </div>
+
+            <!-- Шаг 5: Описание -->
+            <div class="form-group">
+              <div class="label-row">
+                <label class="pixel-label">5. ОПИСАНИЕ ОБРАЗА</label>
+                <span id="desc-counter" class="pixel-counter">0 / 1000</span>
+              </div>
+              <textarea id="order-desc" class="pixel-textarea" rows="4" 
+                placeholder="Опишите персонажа, броню, позу, окружение (мин. 50 символов)..." 
+                maxlength="1000" oninput="updateCharCount()"></textarea>
+              <div id="desc-hint" class="pixel-hint">Минимум 50 символов для детализации заказа</div>
+            </div>
+
+            <!-- Шаг 6: Референсы -->
+            <div class="form-group">
+              <label class="pixel-label">6. РЕФЕРЕНСЫ</label>
+              <div class="ref-box">
+                <div class="ref-desc">
+                  <span>🖼 Прикрепить скриншот или пример:</span>
+                  <p class="ref-sub">Фото можно передать прямо боту в ЛС после оформления заявки.</p>
+                </div>
+                <button type="button" id="ref-toggle-btn" class="pixel-btn sm-btn" onclick="toggleRefStatus()">
+                  <span id="ref-status-text">В ЛС бота (0)</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Итог и кнопка отправки -->
+            <div class="order-summary-box">
+              <div class="summary-line">
+                <span>Тариф гильдии:</span>
+                <span class="highlight-free">Соклан Dha't'elle</span>
+              </div>
+              <div class="summary-line">
+                <span>Стоимость арта:</span>
+                <span class="highlight-price">0 ₽ (Бесплатно)</span>
+              </div>
+              <div class="summary-line">
+                <span>Гарант сделки:</span>
+                <span>Даша (@motheroftor)</span>
+              </div>
+            </div>
+
+            <button type="submit" class="pixel-btn primary-btn submit-btn">
+              <span class="btn-glitch"></span>
+              ⚡ ОТПРАВИТЬ ЗАКАЗ ХУДОЖНИКАМ
+            </button>
+          </form>
+
+          <!-- Блок: Мои текущие заказы арта -->
+          <div id="user-orders-box" class="admin-card" style="margin-top: 14px;">
+            <div class="card-title-row">
+              <span class="admin-card-title">📋 МОИ ЗАКАЗЫ АВАТАРОК</span>
+              <div style="display: flex; gap: 6px; align-items: center;">
+                <span id="user-orders-count" class="stat-pill-val highlight-price">0</span>
+                <button type="button" id="clear-orders-btn" class="pixel-btn sm-btn reject-btn hidden" onclick="clearAllUserOrders()" style="font-size: 7px; padding: 2px 6px;" title="Очистить завершенные или старые заказы">
+                  🗑 Очистить
+                </button>
+              </div>
+            </div>
+            <div id="user-orders-list" class="active-stores-list">
+              <!-- Заполняется динамически -->
+            </div>
+          </div>
+        </section>
+
+        <!-- TAB 2: РЫНОК (ТОРГОВАЯ ПЛОЩАДКА) -->
+        <section id="tab-market" class="tab-pane">
+          
+          <!-- Главный вид рынка -->
+          <div id="market-main-view">
+            <div class="section-title-box">
+              <div class="title-with-actions">
+                <h2 class="section-title">РЫНОК БЕЗДНЫ</h2>
+                <!-- Динамическая кнопка: только «Аренда лавки» (если нет подписки) либо только «Моя лавка» (если подписка активна) -->
+                <div id="market-store-action-box" style="display: flex; gap: 6px; align-items: center;">
+                  <button class="pixel-btn sm-btn tariff-btn" onclick="openRentStoreModal()" title="Аренда торговой лавки">
+                    🔥 Аренда лавки
+                  </button>
+                </div>
+              </div>
+              <span class="section-tag">DHA'T'ELLE TRADE</span>
+            </div>
+
+            <!-- Поиск и фильтры по категориям снаряжения -->
+            <div class="market-controls">
+              <div class="search-bar">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="market-search" class="pixel-input" placeholder="Поиск оружия, брони, модов..." oninput="filterMarketItems()">
+              </div>
+
+              <!-- Категории экипировки -->
+              <div class="filter-pills" id="category-filters">
+                <button class="pill-btn active" data-cat="all" onclick="setCategoryFilter('all')">Все</button>
+                <button class="pill-btn" data-cat="weapon" onclick="setCategoryFilter('weapon')">⚔️ Оружие</button>
+                <button class="pill-btn" data-cat="shield" onclick="setCategoryFilter('shield')">🛡️ Щиты</button>
+                <button class="pill-btn" data-cat="head" onclick="setCategoryFilter('head')">🧢 Голова</button>
+                <button class="pill-btn" data-cat="body" onclick="setCategoryFilter('body')">🥋 Тело</button>
+                <button class="pill-btn" data-cat="pants" onclick="setCategoryFilter('pants')">👖 Штанишки</button>
+                <button class="pill-btn" data-cat="legs" onclick="setCategoryFilter('legs')">🦿 Ноги</button>
+                <button class="pill-btn" data-cat="mod" onclick="setCategoryFilter('mod')">⚙️ Моды</button>
+                <button class="pill-btn" data-cat="limit" onclick="setCategoryFilter('limit')">🏆 Коллекционки</button>
+                <button class="pill-btn" data-cat="misc" onclick="setCategoryFilter('misc')">📦 Разное</button>
+              </div>
+            </div>
+
+            <!-- Кнопка выставить лоты -->
+            <div class="market-actions">
+              <button class="pixel-btn accent-btn full-btn" onclick="openCreateLotModal()">
+                + ВЫСТАВИТЬ ПРЕДМЕТЫ НА РЫНОК
+              </button>
+            </div>
+
+            <!-- Список товаров на рынке -->
+            <div class="market-grid" id="market-list">
+              <!-- Заполняется динамически -->
+            </div>
+          </div>
+
+          <!-- Отдельный экран: Торговая лавка конкретного продавца -->
+          <div id="market-storefront-view" class="hidden">
+            <div class="storefront-banner">
+              <div class="store-top-row">
+                <button class="pixel-btn sm-btn back-btn" onclick="closeStorefront()">
+                  ← ВСЕ ТОВАРЫ
+                </button>
+                <span class="pixel-badge" id="store-badge">ЛАВКА СОКЛАНА</span>
+              </div>
+
+              <div class="storefront-profile">
+                <div class="store-avatar">🏪</div>
+                <div class="store-details">
+                  <h3 class="store-title" id="store-seller-name">Торговая Лавка</h3>
+                  <div class="store-meta">
+                    <span id="store-seller-contact" class="seller-contact-link">@id</span>
+                    <span class="dot-sep">•</span>
+                    <span id="store-seller-guild">Гильдия: Dha't'elle</span>
+                  </div>
+                  <div class="store-stats">
+                    Активных лотов: <span id="store-items-count" class="highlight-price">0</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="store-items-header">
+              <span class="pixel-label">ТОВАРЫ В ЭТОЙ ЛАВКЕ:</span>
+            </div>
+
+            <div class="market-grid" id="storefront-list">
+              <!-- Товары конкретного продавца -->
+            </div>
+          </div>
+
+        </section>
+
+        <!-- TAB 3: АЛТАРЬ БЕЗДНЫ (ПЕЧЕНЬКИ С ПРЕДСКАЗАНИЯМИ) -->
+        <section id="tab-altar" class="tab-pane">
+          <div class="section-title-box">
+            <h2 class="section-title">АЛТАРЬ БЕЗДНЫ</h2>
+            <span class="section-tag">DHA'T'ELLE ORACLE</span>
+          </div>
+
+          <div class="altar-card">
+            <div class="altar-art-frame">
+              <img src="assets/dhatelle_emblem.jpg" alt="Dark Crystal" class="altar-crystal">
+              <div class="altar-overlay-glow"></div>
+            </div>
+
+            <div class="altar-lore">
+              <h3 class="pixel-subtitle">ТЁМНЫЙ КРИСТАЛЛ DHA’T’ELLE</h3>
+              <p class="lore-text">
+                «В глубине обсидианового монолита пробуждаются недремлющие багровые очи. 
+                Дотронься до граней кристалла, чтобы узнать знамение Бездны на сегодняшний поход...»
+              </p>
+            </div>
+
+            <button class="pixel-btn alt-btn full-btn ritual-trigger" onclick="triggerAltarRitual()">
+              <span class="eye-icon">👁</span> ПРИКОСНУТЬСЯ К БЕЗДНЕ
+            </button>
+
+            <!-- Блок предсказания -->
+            <div id="altar-oracle-message" class="oracle-box hidden">
+              <div class="oracle-header">
+                <span class="oracle-icon">🔮</span>
+                <span class="oracle-title">ШЁПОТ БЕЗДНЫ:</span>
+              </div>
+              <div id="oracle-text" class="oracle-content">
+                <!-- Случайное предсказание -->
+              </div>
+            </div>
+
+            <!-- Блок: Предложить своё предсказание -->
+            <div class="suggest-oracle-box">
+              <button type="button" class="pixel-btn sm-btn suggest-btn full-btn" onclick="openSuggestModal()">
+                ✍️ ПРЕДЛОЖИТЬ СВОЁ ЗНАМЕНИЕ
+              </button>
+              <p class="suggest-hint">
+                Есть идея для знамения или шутки про ToR? Нажмите кнопку выше — ваш вариант поступит создателю и Высшему Офицерскому Составу (ВОС) гильдии. Одобренные фразы сразу появятся в случайных подсказках Алтаря!
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- TAB 4: АДМИН-ПАНЕЛЬ (ТОЛЬКО ДЛЯ GEEK_MANN И НАЗНАЧЕННЫХ АДМИНОВ) -->
+        <section id="tab-admin" class="tab-pane">
+          <div class="section-title-box">
+            <div class="title-with-actions">
+              <h2 class="section-title">УПРАВЛЕНИЕ</h2>
+              <span class="pixel-badge super-admin-badge">ROOT</span>
+            </div>
+            <span class="section-tag">DHA'T'ELLE ADMIN</span>
+          </div>
+
+          <!-- Баннер панели -->
+          <div class="admin-banner">
+            <div class="admin-badge-row">
+              <span class="pixel-badge gold-badge">ГЛАВНЫЙ АДМИНИСТРАТОР: GEEK_MANN</span>
+              <span id="current-admin-status" class="admin-status-indicator">● АКТИВЕН</span>
+            </div>
+            <p class="admin-desc">
+              Настройка тарифов аренды лавок, назначение администраторов и мониторинг активных подписок.
+            </p>
+          </div>
+
+          <!-- БЛОК 1: НАСТРОЙКИ ТАРИФОВ ПОДПИСКИ НА ЛАВКУ -->
+          <div class="admin-card">
+            <div class="card-title-row">
+              <span class="admin-card-title">⚙️ ТАРИФ АРЕНДЫ ТОРГОВОЙ ЛАВКИ</span>
+            </div>
+
+            <div class="pixel-grid grid-3" style="margin-bottom: 8px;">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="pixel-label">ЦЕНА В ЯДРАХ 🔮:</label>
+                <input type="number" id="cfg-cores-price" class="pixel-input" value="27000" min="100">
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="pixel-label">ЦЕНА В RND 🪙:</label>
+                <input type="number" id="cfg-rnd-price" class="pixel-input" value="1000" min="10">
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="pixel-label">СРОК (ДНЕЙ):</label>
+                <input type="number" id="cfg-rent-days" class="pixel-input" value="30" min="1" max="365">
+              </div>
+            </div>
+
+            <div class="admin-subtext" style="margin-top: 4px; margin-bottom: 10px; color: var(--gold); font-size: 8.5px; line-height: 1.3;">
+              🛡️ <b>Получатель в ToR:</b> «Ярость всегда рядом» (ID 208825850 / geek_mann). Чек перевода проверяется ботом автоматически.
+            </div>
+
+            <button type="button" class="pixel-btn primary-btn full-btn" onclick="saveAdminSettings()">
+              💾 СОХРАНИТЬ ТАРИФЫ АРЕНДЫ
+            </button>
+          </div>
+
+          <!-- БЛОК 2: УПРАВЛЕНИЕ ДОСТУПОМ К АДМИНКЕ -->
+          <div class="admin-card">
+            <div class="card-title-row">
+              <span class="admin-card-title">👥 СПИСОК АДМИНИСТРАТОРОВ</span>
+            </div>
+            <p class="admin-subtext">Выдать доступ к этой вкладке другому человеку (ссылка или ID в VK):</p>
+
+            <div class="admin-add-row">
+              <input type="text" id="new-admin-input" class="pixel-input" placeholder="vk.com/id... или @id... или числовой ID">
+              <button type="button" class="pixel-btn sm-btn accent-btn" onclick="addAdminUser()">
+                + ДОБАВИТЬ
+              </button>
+            </div>
+
+            <div id="admins-list-container" class="admins-pill-list">
+              <!-- Список администраторов -->
+            </div>
+          </div>
+
+          <!-- БЛОК 3: УПРАВЛЕНИЕ АКТИВНЫМИ ЛАВКАМИ -->
+          <div class="admin-card">
+            <div class="card-title-row">
+              <span class="admin-card-title">🏪 АКТИВНЫЕ ЛАВКИ ИГРОКОВ</span>
+              <span id="active-stores-count" class="stat-pill-val highlight-price">0</span>
+            </div>
+            
+            <!-- Ручная активация -->
+            <div class="manual-grant-box">
+              <label class="pixel-label">РУЧНАЯ ВЫДАЧА / ПРОДЛЕНИЕ ЛАВКИ:</label>
+              <div class="admin-add-row">
+                <input type="text" id="manual-store-user" class="pixel-input" placeholder="Ник или @id игрока">
+                <button type="button" class="pixel-btn sm-btn accept-btn" onclick="grantManualStorefront()">
+                  👑 ВЫДАТЬ
+                </button>
+              </div>
+            </div>
+
+            <div class="stores-table-box">
+              <label class="pixel-label">СПИСОК АРЕНДОВАННЫХ МЕСТ:</label>
+              <div id="active-stores-list" class="active-stores-list">
+                <!-- Таблица активных лавок -->
+              </div>
+            </div>
+          </div>
+
+          <!-- БЛОК 4: МОДЕРАЦИЯ ЗНАМЕНИЙ АЛТАРЯ -->
+          <div class="admin-card">
+            <div class="card-title-row">
+              <span class="admin-card-title">🔮 МОДЕРАЦИЯ ЗНАМЕНИЙ АЛТАРЯ</span>
+              <span id="proposals-count" class="stat-pill-val highlight-price">0</span>
+            </div>
+            <p class="admin-subtext">Знамения и подсказки, предложенные сокланами. Принятые варианты сразу попадают в Оракул Алтаря Бездны, а отклонённые — удаляются.</p>
+
+            <div class="proposals-stats-row" style="margin-bottom: 10px;">
+              <div class="stat-pill">
+                <span class="stat-pill-label">На рассмотрении:</span>
+                <span id="proposals-count-badge" class="stat-pill-val highlight-price">0</span>
+              </div>
+              <div class="stat-pill">
+                <span class="stat-pill-label">В базе Алтаря:</span>
+                <span id="total-oracle-count" class="stat-pill-val text-gold">35</span>
+              </div>
+            </div>
+
+            <div class="proposals-list" id="proposals-container">
+              <!-- Динамический список карточек предложений -->
+            </div>
+          </div>
+
+          <!-- БЛОК 5: БЫСТРЫЕ ДЕЙСТВИЯ -->
+          <div class="admin-card">
+            <div class="card-title-row">
+              <span class="admin-card-title">⚡ БЫСТРЫЕ ДЕЙСТВИЯ АДМИНИСТРАТОРА</span>
+            </div>
+            <div class="pixel-grid grid-2" style="gap: 8px;">
+              <button type="button" class="pixel-btn sm-btn accept-btn" onclick="syncSubscriptionsNow()" title="Обновить подписки из базы сервера">
+                🔄 Синхронизировать лавки
+              </button>
+              <button type="button" class="pixel-btn sm-btn tariff-btn" onclick="cleanExpiredSubscriptions()" title="Удалить просроченные подписки">
+                🧹 Очистить истёкшие лавки
+              </button>
+              <button type="button" class="pixel-btn sm-btn" onclick="exportFullDataBackup()" title="Скачать JSON с резервной копией">
+                💾 Экспорт базы (JSON)
+              </button>
+              <button type="button" class="pixel-btn sm-btn" onclick="triggerImportBackup()" title="Восстановить данные из JSON">
+                📥 Импорт базы (JSON)
+              </button>
+              <button type="button" class="pixel-btn sm-btn alt-btn" onclick="clearPendingProposals()" title="Очистить очередь модерации знамений">
+                🔮 Сбросить знамения
+              </button>
+              <button type="button" class="pixel-btn sm-btn reject-btn" onclick="clearMarketData()" title="Удалить все предметы с рынка">
+                🗑️ Очистить рынок
+              </button>
+              <button type="button" class="pixel-btn sm-btn alt-btn" onclick="resetUsedLogs()" style="grid-column: span 2;" title="Сбросить хэши чеков для повторных тестов">
+                🔄 Сбросить Anti-Replay чеков ToR
+              </button>
+            </div>
+            <input type="file" id="backup-file-input" accept=".json" onchange="handleBackupFile(event)" style="display:none;">
+          </div>
+
+        </section>
+
+      </main>
+
+      <!-- Bottom Pixel Navigation Bar -->
+      <nav class="app-navbar">
+        <button class="nav-btn active" data-tab="tab-art" onclick="switchTab('tab-art')">
+          <div class="nav-icon-box">
+            <span class="nav-icon">🎨</span>
+          </div>
+          <span class="nav-label">ХУДОЖКА</span>
+        </button>
+
+        <button class="nav-btn" data-tab="tab-market" onclick="switchTab('tab-market')">
+          <div class="nav-icon-box">
+            <span class="nav-icon">⚖️</span>
+          </div>
+          <span class="nav-label">РЫНОК</span>
+        </button>
+
+        <button class="nav-btn" data-tab="tab-altar" onclick="switchTab('tab-altar')">
+          <div class="nav-icon-box">
+            <span class="nav-icon">🔮</span>
+          </div>
+          <span class="nav-label">АЛТАРЬ</span>
+        </button>
+
+        <!-- Вкладка только для Создателя и ВОС (Админка + Модерация предложений) -->
+        <button class="nav-btn admin-only hidden" id="nav-admin" data-tab="tab-admin" onclick="switchTab('tab-admin')">
+          <div class="nav-icon-box">
+            <span class="nav-icon">⚙️</span>
+            <span id="admin-proposals-badge" class="nav-badge hidden">0</span>
+          </div>
+          <span class="nav-label">АДМИНКА</span>
+        </button>
+      </nav>
+
+    </div>
+  </div>
+
+  <!-- Modal: Создание одного или нескольких лотов на рынке -->
+  <div id="lot-modal" class="pixel-modal hidden">
+    <div class="modal-backdrop" onclick="closeCreateLotModal()"></div>
+    <div class="modal-window wide-modal">
+      <div class="modal-header">
+        <span class="modal-title">ВЫСТАВЛЕНИЕ ТОВАРОВ В ЛАВКУ</span>
+        <button class="close-btn" onclick="closeCreateLotModal()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="seller-cfg-bar">
+          <label class="pixel-label">ВАШ НИК / КОНТАКТ В VK:</label>
+          <input type="text" id="seller-global-contact" class="pixel-input" value="geek_mann" placeholder="@id или Ник">
+        </div>
+
+        <!-- Динамический список добавляемых предметов -->
+        <div class="lots-builder-container">
+          <label class="pixel-label">СПИСОК ВЫСТАВЛЯЕМЫХ ПРЕДМЕТОВ:</label>
+          <div id="lots-builder-list" class="lots-builder-list">
+            <!-- Строки товаров добавляются динамически -->
+          </div>
+
+          <button type="button" class="pixel-btn sm-btn add-more-lot-btn" onclick="addLotRow()">
+            + ДОБАВИТЬ ЕЩЁ ПРЕДМЕТ В СПИСОК
+          </button>
+        </div>
+
+        <button class="pixel-btn primary-btn full-btn" onclick="publishAllLots()">
+          ⚡ ОПУБЛИКОВАТЬ ВСЕ ЛОТЫ В ЛАВКЕ
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Предложить своё предсказание в Алтарь -->
+  <div id="suggest-modal" class="pixel-modal hidden">
+    <div class="modal-backdrop" onclick="closeSuggestModal()"></div>
+    <div class="modal-window">
+      <div class="modal-header">
+        <span class="modal-title">НОВОЕ ЗНАМЕНИЕ ДЛЯ АЛТАРЯ</span>
+        <button class="close-btn" onclick="closeSuggestModal()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="pixel-label">ВАШ НИК / АВТОР:</label>
+          <input type="text" id="suggest-author" class="pixel-input" value="geek_mann" placeholder="Ник в игре или ссылка @id">
+        </div>
+
+        <div class="form-group">
+          <label class="pixel-label">ТЕКСТ ПРЕДСКАЗАНИЯ / ЗНАМЕНИЯ:</label>
+          <textarea id="suggest-text" class="pixel-textarea" rows="4" 
+            placeholder="Напишите вариант предсказания или подсказки..." maxlength="300"></textarea>
+          <div class="pixel-hint">Предложение отправится на модерацию создателю и ВОС в панель управления («Админка»).</div>
+        </div>
+
+        <button type="button" class="pixel-btn primary-btn full-btn" onclick="submitOracleProposal()">
+          ⚡ ОТПРАВИТЬ НА МОДЕРАЦИЮ
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Аренда Торговой Лавки (Оплата через ToR) -->
+  <div id="rent-store-modal" class="pixel-modal hidden">
+    <div class="modal-backdrop" onclick="closeRentStoreModal()"></div>
+    <div class="modal-window wide-modal">
+      <div class="modal-header">
+        <span class="modal-title">АРЕНДА ТОРГОВОЙ ЛАВКИ</span>
+        <button class="close-btn" onclick="closeRentStoreModal()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="rent-perks-box">
+          <div class="perk-item">
+            <span class="perk-icon">🔥</span>
+            <div>
+              <b class="perk-title">VIP-приоритет товаров</b>
+              <p class="perk-desc">Ваши лоты всегда отображаются на самом верху рынка перед обычными товарами.</p>
+            </div>
+          </div>
+          <div class="perk-item">
+            <span class="perk-icon">🏪</span>
+            <div>
+              <b class="perk-title">Персональная витрина</b>
+              <p class="perk-desc">Покупатели могут нажать «В лавку» и увидеть все ваши товары в одном месте.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="rent-tariffs-box">
+          <label class="pixel-label">СТОИМОСТЬ АРЕНДЫ (НА <span id="rent-days-label">30</span> ДНЕЙ):</label>
+          <div class="pixel-grid grid-2" style="margin-top: 4px;">
+            <div class="tariff-chip">
+              <span class="tariff-currency">ЯДРА 🔮</span>
+              <span id="rent-cores-val" class="tariff-amount text-gold">27,000</span>
+            </div>
+            <div class="tariff-chip">
+              <span class="tariff-currency">RND 🪙</span>
+              <span id="rent-rnd-val" class="tariff-amount text-gold">1,000</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rent-instruction-box">
+          <label class="pixel-label">КАК ОПЛАТИТЬ И АКТИВИРОВАТЬ ЛАВКУ:</label>
+          <ol class="rent-steps-list">
+            <li>Переведите в игре ToR нужную сумму персонажу <b id="rent-recipient-label" class="highlight-price">Ярость всегда рядом</b> (vk.com/id208825850).</li>
+            <li>Откройте диалог с нашим ботом и <b>перешлите официальное сообщение-чек от игры ToR</b> о переводе.</li>
+            <li>Бот автоматически проверит подлинность и свежесть чека игры и мгновенно активирует вашу Торговую лавку на 30 дней!</li>
+          </ol>
+        </div>
+
+        <a href="https://vk.me/club241412610" target="_blank" class="pixel-btn primary-btn full-btn" style="text-decoration:none; text-align:center; display:block; padding:12px 10px; font-size:10px; margin-top:10px;">
+          💬 ПЕРЕЙТИ В ЛС С БОТОМ И ПЕРЕСЛАТЬ ЧЕК
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="pixel-toast" class="pixel-toast hidden">
+    <span id="toast-icon">⚔️</span>
+    <span id="toast-message">Действие выполнено</span>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

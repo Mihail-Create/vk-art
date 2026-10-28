@@ -1,0 +1,33 @@
+{
+  "112233": {
+    "guild": "Dha’t’elle",
+    "payment_type": "free",
+    "price": 0
+  },
+  "208825850": {
+    "guild": "🏰 Dha’t’elle",
+    "payment_type": "free",
+    "price": 0
+  },
+  "755189137": {
+    "guild": "🏰 Dha’t’elle",
+    "payment_type": "free",
+    "price": 0
+  },
+  "99887766": {
+    "guild": "Dha’t’elle",
+    "nickname": "ТеньБездны",
+    "payment_type": "free",
+    "price": 0,
+    "updated_at": "2026-10-24 19:13",
+    "source": "clan_chat_status"
+  },
+  "554433": {
+    "guild": "Dha't'elle",
+    "nickname": "СеверныйВолк",
+    "payment_type": "free",
+    "price": 0,
+    "updated_at": "2026-10-26 14:41",
+    "source": "clan_chat_status"
+  }
+}
